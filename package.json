@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/goldenyz/react-perfect-scrollbar.git"
+    "url": "https://github.com/sentisquare/react-perfect-scrollbar.git"
   },
   "keywords": [
     "react",
@@ -38,7 +38,7 @@
     "react-dom": ">=16.3.3"
   },
   "dependencies": {
-    "perfect-scrollbar": "^1.5.0",
+    "@sentisquare/perfect-scrollbar": "^1.5.7",
     "prop-types": "^15.6.1"
   },
   "devDependencies": {

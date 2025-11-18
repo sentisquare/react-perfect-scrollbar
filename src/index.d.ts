@@ -1,8 +1,8 @@
 /// <reference types="react" />
-/// <reference types="perfect-scrollbar" />
+/// <reference types="@sentisquare/perfect-scrollbar" />
 
 import * as React from 'react';
-import PerfectScrollbar from 'perfect-scrollbar';
+import PerfectScrollbar from '@sentisquare/perfect-scrollbar';
 
 export interface ScrollBarProps extends React.HTMLAttributes<HTMLElement> {
   /**
