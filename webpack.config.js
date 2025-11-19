@@ -1,8 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-const { UglifyJsPlugin } = webpack.optimize;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const env = process.env.NODE_ENV;
 const libraryName = '[name]';
@@ -15,27 +13,20 @@ const plugins = [
 
 let outputFile;
 if (env === 'production') {
-  plugins.push(new UglifyJsPlugin({
-    sourceMap: true,
-    compress: {
-      warnings: true,
-    },
-  }));
-  plugins.push(new webpack.LoaderOptionsPlugin({
-    minimize: true,
-  }));
   outputFile = `${libraryName}.min.js`;
-  plugins.push(new ExtractTextPlugin({
+  plugins.push(new MiniCssExtractPlugin({
     filename: 'css/styles.min.css',
   }));
 } else {
   outputFile = `${libraryName}.js`;
-  plugins.push(new ExtractTextPlugin({
+  plugins.push(new MiniCssExtractPlugin({
     filename: 'css/styles.css',
   }));
 }
 
 module.exports = {
+
+  mode: env === 'production' ? 'production' : 'development',
 
   entry: {
     'react-perfect-scrollbar': [
@@ -49,9 +40,11 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: outputFile,
-    library: libraryName,
-    libraryTarget: 'umd',
-    umdNamedDefine: true,
+    library: {
+      name: libraryName,
+      type: 'umd',
+    },
+    globalObject: 'this',
   },
 
   resolve: {
@@ -74,30 +67,27 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: true,
-                minimize: false,
-              },
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              sourceMap: true,
             },
-            {
-              loader: 'postcss-loader',
-              options: {
-                sourceMap: true,
-              },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
             },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true,
-              },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
             },
-          ],
-        }),
+          },
+        ],
       },
     ],
   },

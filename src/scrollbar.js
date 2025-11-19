@@ -26,6 +26,7 @@ export default class ScrollBar extends Component {
 
   componentDidMount() {
     if (this.props.option) {
+      // eslint-disable-next-line no-console
       console.warn('react-perfect-scrollbar: the "option" prop has been deprecated in favor of "options"');
     }
 
@@ -59,6 +60,11 @@ export default class ScrollBar extends Component {
     this._ps = null;
   }
 
+  handleRef(ref) {
+    this._container = ref;
+    this.props.containerRef(ref);
+  }
+
   _updateEventHook(prevProps = {}) {
     // hook up events
     Object.keys(handlerNameByEvent).forEach((key) => {
@@ -83,7 +89,7 @@ export default class ScrollBar extends Component {
     const { className } = this.props;
 
     const psClassNames = this._container.className.split(' ')
-      .filter(name => name.match(/^ps([-_].+|)$/))
+      .filter((name) => name.match(/^ps([-_].+|)$/))
       .join(' ');
 
     if (this._container) {
@@ -93,11 +99,6 @@ export default class ScrollBar extends Component {
 
   updateScroll() {
     this.props.onSync(this._ps);
-  }
-
-  handleRef(ref) {
-    this._container = ref;
-    this.props.containerRef(ref);
   }
 
   render() {
@@ -148,7 +149,7 @@ ScrollBar.defaultProps = {
   onYReachEnd: undefined,
   onXReachStart: undefined,
   onXReachEnd: undefined,
-  onSync: ps => ps.update(),
+  onSync: (ps) => ps.update(),
   component: 'div',
 };
 

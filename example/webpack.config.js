@@ -4,6 +4,8 @@ const webpack = require('webpack');
 
 module.exports = {
 
+  mode: 'development',
+
   entry: path.join(__dirname, 'index.js'),
 
   output: {
